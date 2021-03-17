@@ -127,3 +127,67 @@ macro_rules! hi_set {
         out
     }};
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn insert_1() {
+        let mut bag = HISet::new();
+
+        bag.insert(1);
+
+        assert_eq!(1, bag[0]);
+    }
+
+    #[test]
+    fn cant_contain_duplicates() {
+        let mut bag = HISet::new();
+
+        bag.insert(1);
+        bag.insert(1);
+
+        assert_eq!(1, bag.len());
+        assert_eq!(1, bag[0]);
+    }
+
+    #[test]
+    fn iteration_order_is_ord() {
+        let mut bag = HISet::new();
+
+        bag.insert(3);
+        bag.insert(1);
+        bag.insert(2);
+
+        let mut iter = bag.iter();
+
+        assert_eq!(Some(&1), iter.next());
+        assert_eq!(Some(&2), iter.next());
+        assert_eq!(Some(&3), iter.next());
+        assert_eq!(None, iter.next());
+    }
+
+    #[test]
+    fn can_contain_different_values() {
+        let mut bag = HISet::new();
+
+        bag.insert(1);
+        bag.insert(2);
+
+        assert_eq!(2, bag.len());
+        assert_eq!(true, bag.contains(&1));
+        assert_eq!(true, bag.contains(&2));
+    }
+    #[test]
+    fn can_remove_items() {
+        let mut bag = HISet::new();
+
+        bag.insert(1);
+        bag.insert(2);
+        bag.remove(&1);
+
+        assert_eq!(1, bag.len());
+        assert_eq!(false, bag.contains(&1));
+    }
+}
