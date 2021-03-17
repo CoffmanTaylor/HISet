@@ -2,10 +2,11 @@
 
 use std::{
     hash::Hash,
+    iter::FromIterator,
     ops::{Index, IndexMut},
 };
 
-#[derive(Debug, Hash, PartialEq, Eq, Clone)]
+#[derive(Debug, Hash, PartialEq, Eq, Clone, PartialOrd, Ord)]
 pub struct HISet<T> {
     items: Vec<T>,
 }
@@ -98,4 +99,31 @@ impl<T> IntoIterator for HISet<T> {
     fn into_iter(self) -> Self::IntoIter {
         self.items.into_iter()
     }
+}
+
+impl<T> FromIterator<T> for HISet<T>
+where
+    T: Ord,
+{
+    fn from_iter<I: IntoIterator<Item = T>>(iter: I) -> Self {
+        let mut set = HISet::new();
+
+        iter.into_iter().for_each(|t| {
+            set.insert(t);
+            ()
+        });
+
+        set
+    }
+}
+
+#[macro_export]
+macro_rules! hi_set {
+    ($( $item:expr ),*) => {{
+        let mut out = HISet::new();
+        $(
+            out.insert($item);
+        )*
+        out
+    }};
 }
