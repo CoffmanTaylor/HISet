@@ -75,6 +75,10 @@ impl<T> HISet<T> {
 
         &mut self.items[index]
     }
+
+    pub fn clear(&mut self) {
+        self.items.clear();
+    }
 }
 
 impl<T> Index<usize> for HISet<T> {
