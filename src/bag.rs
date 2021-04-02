@@ -100,17 +100,6 @@ where
     }
 }
 
-#[macro_export]
-macro_rules! hi_bag {
-    ($( $item:expr ),*) => {{
-        let mut out = HIBag::new();
-        $(
-            out.insert($item);
-        )*
-        out
-    }};
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

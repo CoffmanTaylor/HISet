@@ -121,17 +121,6 @@ where
     }
 }
 
-#[macro_export]
-macro_rules! hi_set {
-    ($( $item:expr ),*) => {{
-        let mut out = HISet::new();
-        $(
-            out.insert($item);
-        )*
-        out
-    }};
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
